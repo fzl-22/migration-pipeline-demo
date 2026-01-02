@@ -18,7 +18,13 @@ variable "environment" {
 variable "ec2_ami_id" {
   description = "The EC2 AMI ID."
   type        = string
-  default     = null
+  default     = "ami-0c55b159cbfafe1f0"
+}
+
+variable "ec2_key_pair_name" {
+  description = "The EC2 key pair name."
+  type        = string
+  default     = "demo-ec2-keypair"
 }
 
 variable "ec2_instance_type" {
