@@ -22,12 +22,6 @@ variable "managed_by" {
   default     = "Terraform"
 }
 
-variable "environment" {
-  description = "The deployment environment (prd, qa, dev)."
-  type        = string
-  default     = null
-}
-
 variable "ec2_ami_id" {
   description = "The EC2 AMI ID."
   type        = string
