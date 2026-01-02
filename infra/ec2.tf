@@ -5,7 +5,7 @@ resource "aws_instance" "demo_ec2_bastion_host" {
   subnet_id                   = aws_subnet.demo_public_subnet.id
   vpc_security_group_ids      = [aws_security_group.demo_ec2_launch_sg.id, aws_security_group.demo_ec2_to_rds_sg.id]
   associate_public_ip_address = true
-  key_name                    = var.ec2_key_pair_name
+  key_name                    = aws_key_pair.demo_ec2_key_pair.key_name
 
   user_data = templatefile("${path.module}/scripts/bootstrap_ec2_bastion_host.sh", {
     github_repo_name     = var.github_repo_name,
