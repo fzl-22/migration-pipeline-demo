@@ -7,12 +7,12 @@ resource "aws_instance" "demo_ec2_bastion_host" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.demo_ec2_key_pair.key_name
 
-  user_data = templatefile("${path.module}/scripts/bootstrap_ec2_bastion_host.sh", {
-    github_repo_name     = var.github_repo_name,
-    github_repo_pat      = var.github_repo_pat,
-    github_runner_name   = "demo-bastion-host-runner",
-    github_runner_labels = join(",", ["demo-bastion-host"]),
-  })
+  # user_data = templatefile("${path.module}/scripts/bootstrap_ec2_bastion_host.sh", {
+  #   github_repo_name     = var.github_repo_name,
+  #   github_repo_pat      = var.github_repo_pat,
+  #   github_runner_name   = "demo-bastion-host-runner",
+  #   github_runner_labels = join(",", ["demo-bastion-host"]),
+  # })
 
   user_data_replace_on_change = true
 
