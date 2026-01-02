@@ -13,6 +13,7 @@ variable "managed_by" {
 variable "environment" {
   description = "The deployment environment (prd, qa, dev)."
   type        = string
+  default     = null
 }
 
 variable "ec2_ami_id" {
@@ -36,9 +37,11 @@ variable "ec2_instance_type" {
 variable "github_repo_name" {
   description = "The GitHub repository name."
   type        = string
+  default     = null
 }
 
 variable "github_repo_pat" {
   description = "The GitHub repository Personal Access Token (PAT)."
   type        = string
+  default     = null
 }
