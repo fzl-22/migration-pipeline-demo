@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "demo_ec2_secrets_manager_policy" {
 
 resource "aws_iam_role" "demo_ec2_role" {
   name               = "${var.environment}-demo-ec2-role"
-  assume_role_policy = data.aws_iam_policy_document.demo_ec2_assume_role_policy.jso
+  assume_role_policy = data.aws_iam_policy_document.demo_ec2_assume_role_policy.json
 
   tags = {
     Name        = "${var.environment}-demo-ec2-role"
