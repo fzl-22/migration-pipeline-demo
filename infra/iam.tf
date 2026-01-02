@@ -34,38 +34,35 @@ data "aws_iam_policy_document" "demo_ec2_secrets_manager_policy" {
 }
 
 resource "aws_iam_role" "demo_ec2_role" {
-  name               = "${var.environment}-demo-ec2-role"
+  name               = "demo-ec2-role"
   assume_role_policy = data.aws_iam_policy_document.demo_ec2_assume_role_policy.json
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-role"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-role"
+    ManagedBy = var.managed_by
   }
 }
 
 # IAM POLICIES
 resource "aws_iam_policy" "demo_ec2_parameter_store_policy" {
-  name   = "${var.environment}-demo-ec2-parameter-store-policy"
+  name   = "demo-ec2-parameter-store-policy"
   path   = "/"
   policy = data.aws_iam_policy_document.demo_ec2_parameter_store_policy.json
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-parameter-store-policy"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-parameter-store-policy"
+    ManagedBy = var.managed_by
   }
 }
 
 resource "aws_iam_policy" "demo_ec2_secrets_manager_policy" {
-  name   = "${var.environment}-demo-ec2-secrets-manager-policy"
+  name   = "demo-ec2-secrets-manager-policy"
   path   = "/"
   policy = data.aws_iam_policy_document.demo_ec2_secrets_manager_policy.json
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-secrets-manager-policy"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-secrets-manager-policy"
+    ManagedBy = var.managed_by
   }
 }
 
@@ -82,12 +79,11 @@ resource "aws_iam_role_policy_attachment" "demo_ec2_secrets_manager_policy_attac
 
 # IAM INSTANCE PROFILE
 resource "aws_iam_instance_profile" "demo_ec2_instance_profile" {
-  name = "${var.environment}-demo-ec2-instance-profile"
+  name = "demo-ec2-instance-profile"
   role = aws_iam_role.demo_ec2_role.name
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-instance-profile"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-instance-profile"
+    ManagedBy = var.managed_by
   }
 }

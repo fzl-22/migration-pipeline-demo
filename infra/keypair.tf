@@ -8,9 +8,8 @@ resource "aws_key_pair" "demo_ec2_key_pair" {
   public_key = tls_private_key.demo_ec2_key_pair.public_key_openssh
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-key-pair"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-key-pair"
+    ManagedBy = var.managed_by
   }
 }
 

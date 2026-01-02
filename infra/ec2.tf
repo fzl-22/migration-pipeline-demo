@@ -10,8 +10,8 @@ resource "aws_instance" "demo_ec2_bastion_host" {
   user_data = templatefile("${path.module}/scripts/bootstrap_ec2_bastion_host.sh", {
     github_repo_name     = var.github_repo_name,
     github_repo_pat      = var.github_repo_pat,
-    github_runner_name   = "${var.environment}-demo-bastion-host-runner",
-    github_runner_labels = join(",", ["${var.environment}-demo-bastion-host"]),
+    github_runner_name   = "demo-bastion-host-runner",
+    github_runner_labels = join(",", ["demo-bastion-host"]),
   })
 
   user_data_replace_on_change = true
@@ -19,15 +19,14 @@ resource "aws_instance" "demo_ec2_bastion_host" {
   iam_instance_profile = aws_iam_instance_profile.demo_ec2_instance_profile.name
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-bastion-host"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-bastion-host"
+    ManagedBy = var.managed_by
   }
 }
 
 # SECURITY GROUPS
 resource "aws_security_group" "demo_ec2_launch_sg" {
-  name        = "${var.environment}-demo-ec2-launch-sg"
+  name        = "demo-ec2-launch-sg"
   description = "Allow SSH inbound traffic and all outbound traffic for EC2 instance."
   vpc_id      = aws_vpc.demo_vpc.id
 
@@ -48,14 +47,13 @@ resource "aws_security_group" "demo_ec2_launch_sg" {
   }
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-sg"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-sg"
+    ManagedBy = var.managed_by
   }
 }
 
 resource "aws_security_group" "demo_ec2_to_rds_sg" {
-  name        = "${var.environment}-demo-ec2-to-rds-sg"
+  name        = "demo-ec2-to-rds-sg"
   description = "Rule to allow connections RDS from any instances this security group is attached to."
   vpc_id      = aws_vpc.demo_vpc.id
 
@@ -67,14 +65,13 @@ resource "aws_security_group" "demo_ec2_to_rds_sg" {
   }
 
   tags = {
-    Name        = "${var.environment}-demo-ec2-to-rds-sg"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-ec2-to-rds-sg"
+    ManagedBy = var.managed_by
   }
 }
 
 resource "aws_security_group" "demo_rds_to_ec2_sg" {
-  name        = "${var.environment}-demo-rds-to-ec2-sg"
+  name        = "demo-rds-to-ec2-sg"
   description = "Rule to allow connections RDS from any instances this security group is attached to."
   vpc_id      = aws_vpc.demo_vpc.id
 
@@ -86,8 +83,7 @@ resource "aws_security_group" "demo_rds_to_ec2_sg" {
   }
 
   tags = {
-    Name        = "${var.environment}-demo-rds-to-ec2-sg"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-rds-to-ec2-sg"
+    ManagedBy = var.managed_by
   }
 }

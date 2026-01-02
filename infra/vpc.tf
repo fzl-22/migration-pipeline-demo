@@ -4,9 +4,8 @@ resource "aws_vpc" "demo_vpc" {
   enable_dns_support   = true
 
   tags = {
-    Name        = "${var.environment}-demo-vpc"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-vpc"
+    ManagedBy = var.managed_by
   }
 }
 
@@ -16,8 +15,7 @@ resource "aws_subnet" "demo_public_subnet" {
   availability_zone = "${var.aws_region}a"
 
   tags = {
-    Name        = "${var.environment}-demo-public-subnet"
-    Environment = var.environment
-    ManagedBy   = var.managed_by
+    Name      = "demo-public-subnet"
+    ManagedBy = var.managed_by
   }
 }
