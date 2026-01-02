@@ -10,10 +10,9 @@ resource "aws_instance" "demo_ec2_bastion_host" {
   user_data = templatefile("${path.module}/scripts/bootstrap_ec2_bastion_host.sh", {
     github_repo_name     = var.github_repo_name,
     github_repo_pat      = var.github_repo_pat,
-    github_runner_name   = var.github_runner_name,
-    github_runner_labels = join(",", var.github_runner_labels),
-    }
-  )
+    github_runner_name   = "${var.environment}-demo-bastion-host-runner",
+    github_runner_labels = join(",", ["${var.environment}-demo-bastion-host"]),
+  })
 
   user_data_replace_on_change = true
 

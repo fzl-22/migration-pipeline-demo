@@ -42,13 +42,3 @@ variable "github_repo_pat" {
   description = "The GitHub repository Personal Access Token (PAT)."
   type        = string
 }
-
-variable "github_runner_name" {
-  description = "The Self-Hosted Runner name."
-  type        = string
-}
-
-variable "github_runner_labels" {
-  description = "The GitHub Runner labels."
-  type        = list(string)
-}
