@@ -25,19 +25,16 @@ variable "managed_by" {
 variable "ec2_ami_id" {
   description = "The EC2 AMI ID."
   type        = string
-  default     = "ami-0c55b159cbfafe1f0"
 }
 
-variable "ec2_key_pair_name" {
+variable "ec2_keypair_name" {
   description = "The EC2 key pair name."
   type        = string
-  default     = "demo-ec2-keypair"
 }
 
 variable "ec2_instance_type" {
   description = "The EC2 instance type."
   type        = string
-  default     = "t2.micro"
 }
 
 variable "github_repo_name" {
