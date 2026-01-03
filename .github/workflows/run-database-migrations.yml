@@ -1,0 +1,57 @@
+name: Run Database Migrations
+
+on:
+  workflow_dispatch:
+    inputs:
+      direction:
+        description: "Migration direction: up or down (up or down)"
+        type: choice
+        options: ["up", "down"]
+        required: true
+      steps:
+        description: "Number of steps to migrate (optional, defaults to all)"
+        type: number
+        required: false
+
+jobs:
+  migrate:
+    name: Run DB Migrations
+    runs-on: demo-bastion-host
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.25.3"
+
+      - name: Fetch Database Credentials
+        id: db-creds
+        run: |
+          DB_DEMO_MASTER_HOST=$(aws ssm get-parameter --name "${{ vars.DB_DEMO_MASTER_HOST_WRITE }}" --with-decryption --query "Parameter.Value" --output text --region ${{ vars.AWS_REGION }})
+          DB_DEMO_MASTER_CREDENTIALS_ID_ARN=$(aws ssm get-parameter --name "${{ vars.DB_DEMO_MASTER_CREDENTIALS_ID_ARN }}" --with-decryption --query "Parameter.Value" --output text --region ${{ vars.AWS_REGION }})
+          DB_DEMO_MASTER_NAME=$(aws ssm get-parameter --name "${{ vars.DB_DEMO_MASTER_NAME }}" --with-decryption --query "Parameter.Value" --output text --region ${{ vars.AWS_REGION }})
+          DB_DEMO_MASTER_PORT=$(aws ssm get-parameter --name "${{ vars.DB_DEMO_MASTER_PORT }}" --with-decryption --query "Parameter.Value" --output text --region ${{ vars.AWS_REGION }})
+          DB_DEMO_MASTER_SSLMODE=$(aws ssm get-parameter --name "${{ vars.DB_DEMO_MASTER_SSLMODE }}" --with-decryption --query "Parameter.Value" --output text --region ${{ vars.AWS_REGION }})
+
+          DB_DEMO_MASTER_USER_RAW=$(aws secretsmanager get-secret-value --secret-id "${DB_DEMO_MASTER_CREDENTIALS_ID_ARN}" --query SecretString --output text --region ${{ vars.AWS_REGION }} | jq -r '.username')
+          DB_DEMO_MASTER_PASSWORD_RAW=$(aws secretsmanager get-secret-value --secret-id "${DB_DEMO_MASTER_CREDENTIALS_ID_ARN}" --query SecretString --output text --region ${{ vars.AWS_REGION }} | jq -r '.password')
+                                                                                           
+          echo "::add-mask::$DB_DEMO_MASTER_USER_RAW"                                                                                           
+          echo "::add-mask::$DB_DEMO_MASTER_PASSWORD_RAW"        
+
+          DB_DEMO_MASTER_USER=$(python3 -c "import urllib.parse; print(urllib.parse.quote(\"${DB_DEMO_MASTER_USER_RAW}\"))")
+          DB_DEMO_MASTER_PASSWORD=$(python3 -c "import urllib.parse; print(urllib.parse.quote(\"${DB_DEMO_MASTER_PASSWORD_RAW}\"))")
+
+          echo "DB_DEMO_MASTER_HOST=$DB_DEMO_MASTER_HOST" >> $GITHUB_ENV
+          echo "DB_DEMO_MASTER_USER=$DB_DEMO_MASTER_USER" >> $GITHUB_ENV
+          echo "DB_DEMO_MASTER_PASSWORD=$DB_DEMO_MASTER_PASSWORD" >> $GITHUB_ENV
+          echo "DB_DEMO_MASTER_NAME=$DB_DEMO_MASTER_NAME" >> $GITHUB_ENV
+          echo "DB_DEMO_MASTER_PORT=$DB_DEMO_MASTER_PORT" >> $GITHUB_ENV
+          echo "DB_DEMO_MASTER_SSLMODE=$DB_DEMO_MASTER_SSLMODE" >> $GITHUB_ENV
+
+      - name: Run migration
+        run: |
+          echo "Action: migrate-${{ github.event.inputs.direction  }}"
+          make -C database-migrations migrate-${{ github.event.inputs.direction }} STEPS=${{ github.event.inputs.steps }}
