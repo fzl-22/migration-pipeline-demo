@@ -19,3 +19,33 @@ resource "aws_subnet" "demo_public_subnet" {
     ManagedBy = var.managed_by
   }
 }
+
+# ROUTE TABLES
+resource "aws_route_table" "demo_public_route_table" {
+  vpc_id = aws_vpc.demo_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.demo_igw.id
+  }
+
+  tags = {
+    Name      = "demo-public-route-table"
+    ManagedBy = var.managed_by
+  }
+}
+
+resource "aws_route_table_association" "demo_public_subnet_association" {
+  subnet_id      = aws_subnet.demo_public_subnet.id
+  route_table_id = aws_route_table.demo_public_route_table.id
+}
+
+# INTERNET GATEWAYS
+resource "aws_internet_gateway" "demo_igw" {
+  vpc_id = aws_vpc.demo_vpc.id
+
+  tags = {
+    Name      = "demo-igw"
+    ManagedBy = var.managed_by
+  }
+}
