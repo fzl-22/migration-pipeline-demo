@@ -49,5 +49,5 @@ jobs:
       - name: Run migration
         id: run-migration
         run: |
-          echo "Action: migrate-${{ github.event.inputs.direction  }}"
+          echo "Action: migrate-${{ github.event.inputs.direction }}"
           make -C database-migrations migrate-${{ github.event.inputs.direction }} STEPS=${{ github.event.inputs.steps }}
