@@ -4,7 +4,7 @@ resource "tls_private_key" "demo_ec2_key_pair" {
 }
 
 resource "aws_key_pair" "demo_ec2_key_pair" {
-  key_name   = var.ec2_keypair_name
+  key_name   = var.ec2_key_pair_name
   public_key = tls_private_key.demo_ec2_key_pair.public_key_openssh
 
   tags = {
@@ -15,5 +15,5 @@ resource "aws_key_pair" "demo_ec2_key_pair" {
 
 resource "local_file" "private_key" {
   content  = tls_private_key.demo_ec2_key_pair.private_key_pem
-  filename = "${var.ec2_keypair_name}.pem"
+  filename = "${var.ec2_key_pair_name}.pem"
 }

@@ -27,7 +27,7 @@ variable "ec2_ami_id" {
   type        = string
 }
 
-variable "ec2_keypair_name" {
+variable "ec2_key_pair_name" {
   description = "The EC2 key pair name."
   type        = string
 }
