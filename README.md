@@ -27,13 +27,22 @@ aws configure
 
 Enter your AWS Access Key ID and Secret Access Key when prompted.
 
-### 2. Set up HCP Terraform Workspace
+### 2. Initialize Terraform Locally
+
+Although the primary deployment uses HCP Terraform, you may want to initialize Terraform locally for local development or testing.
+
+```bash
+cd infra/
+terraform init
+```
+
+### 3. Set up HCP Terraform Workspace
 
 1.  **Create a New Workspace:** In your HCP Terraform organization, create a new "Version control workflow" workspace.
 2.  **Connect to your VCS:** Connect it to your forked version of this repository.
 3.  **Set the Terraform Working Directory:** In the workspace settings under "General", set the **Terraform Working Directory** to `infra`.
 
-### 3. Configure Workspace Variables
+### 4. Configure Workspace Variables
 
 This is the most critical step. HCP Terraform will not read variables from `.tfvars` files in your repository. You must set them in the workspace UI.
 
@@ -46,7 +55,7 @@ Navigate to your workspace's **Variables** tab and add the following:
 | `TF_VAR_aws_region`        | `us-east-1`             | Environment Variable | No        | Your AWS region.                                                       |
 | `TF_VAR_ec2_ami_id`        | `ami-068c0051b15cdb816` | Environment Variable | No        | AMI for Amazon Linux 2 in `TF_VAR_aws_region`.                         |
 | `TF_VAR_ec2_instance_type` | `t2.micro`              | Environment Variable | No        | AWS EC2 instance type.                                                 |
-| `TF_VAR_ec2_key_pair_name` | `demo-ec2-key-pair`      | Environment Variable | No        | Generated key pair for SSH authentication.                             |
+| `TF_VAR_ec2_key_pair_name` | `demo-ec2-key-pair`     | Environment Variable | No        | Generated key pair for SSH authentication.                             |
 | `TF_VAR_github_repo_name`  | `your-repo/name`        | Environment Variable | No        | Your GitHub repository name (e.g., `my-user/migration-pipeline-demo`). |
 | `TF_VAR_github_repo_pat`   | `github_pat_...`        | Environment Variable | Yes       | GitHub Personal Access Token with `repo` scope.                        |
 | `TF_VAR_managed_by`        | `Terraform`             | Environment Variable | No        | The deployment manager.                                                |
