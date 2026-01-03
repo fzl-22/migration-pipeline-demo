@@ -20,6 +20,38 @@ resource "aws_subnet" "demo_public_subnet" {
   }
 }
 
+resource "aws_subnet" "demo_private_subnet_1" {
+  vpc_id            = aws_vpc.demo_vpc.id
+  cidr_block        = "10.0.20.0/24"
+  availability_zone = "${var.aws_region}b"
+
+  tags = {
+    Name      = "demo-private-subnet-1"
+    ManagedBy = var.managed_by
+  }
+}
+
+resource "aws_subnet" "demo_private_subnet_2" {
+  vpc_id            = aws_vpc.demo_vpc.id
+  cidr_block        = "10.0.21.0/24"
+  availability_zone = "${var.aws_region}c"
+
+  tags = {
+    Name      = "demo-private-subnet-2"
+    ManagedBy = var.managed_by
+  }
+}
+
+resource "aws_db_subnet_group" "demo_rds_subnet_group" {
+  name       = "demo-rds-subnet-group"
+  subnet_ids = [aws_subnet.demo_private_subnet_1.id, aws_subnet.demo_private_subnet_2.id]
+
+  tags = {
+    Name      = "demo-rds-subnet-group"
+    ManagedBy = var.managed_by
+  }
+}
+
 # ROUTE TABLES
 resource "aws_route_table" "demo_public_route_table" {
   vpc_id = aws_vpc.demo_vpc.id
