@@ -58,15 +58,3 @@ resource "aws_ssm_parameter" "db_demo_master_port" {
     ManagedBy = var.managed_by
   }
 }
-
-# Database SSL Mode
-resource "aws_ssm_parameter" "db_demo_master_sslmode" {
-  name  = "/demo/rds/DB_DEMO_MASTER_SSLMODE"
-  type  = "String"
-  value = "require"
-
-  tags = {
-    Name      = "/demo/rds/DB_DEMO_MASTER_SSLMODE"
-    ManagedBy = var.managed_by
-  }
-}
