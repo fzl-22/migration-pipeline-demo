@@ -17,7 +17,7 @@ migrate-down:
 		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose down $(STEPS); \
 	elif [ "$(ALL)" == "true" ]; then \
 		echo "Rolling back ALL migrations..."; \
-		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose down; \
+		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose down -all; \
 	else \
 		echo "SAFETY CHECK FAILED: You must specify STEPS (e.g., STEPS=1) or ALL=true for down migrations." >&2; \
 		exit 1; \
