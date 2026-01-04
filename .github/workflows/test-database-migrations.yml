@@ -52,13 +52,14 @@ jobs:
             rm migrate.linux-amd64.tar.gz
 
       - name: Test migrations
+        working-directory: ./database-migrations
+        env:
+            DB_DEMO_MASTER_USER: test_user
+            DB_DEMO_MASTER_PASSWORD: test_password
+            DB_DEMO_MASTER_HOST: postgres
+            DB_DEMO_MASTER_NAME: test_db
+            DB_DEMO_MASTER_SSLMODE: disable
         run: |
           make migrate-up
           make migrate-down ALL=true
-        working-directory: ./database-migrations
-        env:
-          DB_DEMO_MASTER_USER: test_user
-          DB_DEMO_MASTER_PASSWORD: test_password
-          DB_DEMO_MASTER_HOST: postgres
-          DB_DEMO_MASTER_NAME: test_db
-          DB_DEMO_MASTER_SSLMODE: disable
+        
