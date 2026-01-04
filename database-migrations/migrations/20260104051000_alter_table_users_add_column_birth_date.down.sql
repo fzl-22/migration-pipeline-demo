@@ -1,2 +1,2 @@
 -- deliberate error
-ALTER TABLE users DROPP COLUMN IF EXISTS birth_date;
+ALTER TABLE users DROPPP COLUMN IF EXISTS birth_date;
