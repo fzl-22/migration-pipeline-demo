@@ -6,6 +6,8 @@ on:
       - master
       - staging
       - development
+  # for debugging purpose
+  workflow_dispatch:
 
 jobs:
   publish-images:
@@ -23,4 +25,3 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
