@@ -3,13 +3,14 @@ MIGRATION_DIR ?= migrations
 DATABASE_DSN=postgresql://$(DB_DEMO_MASTER_USER):$(DB_DEMO_MASTER_PASSWORD)@$(DB_DEMO_MASTER_HOST):$(DB_DEMO_MASTER_PORT)/$(DB_DEMO_MASTER_NAME)?sslmode=$(DB_DEMO_MASTER_SSLMODE)
 
 migrate-up:
-ifdef STEPS
-	@echo "Running migration UP by $(STEPS) steps..."
-	migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose up $(STEPS)
-else
-	@echo "Running all pending migrations..."
-	migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose up
-endif
+	@if [ -n "$(STEPS)" ]; then \
+		echo "Running migration UP by $(STEPS) steps..."; \
+		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose up $(STEPS); \
+	else \
+		echo "Running all pending migrations..."; \
+		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose up; \
+	fi
+
 
 migrate-down:
 	@if [ -n "$(STEPS)" ]; then \
