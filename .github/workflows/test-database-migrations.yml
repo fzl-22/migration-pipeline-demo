@@ -24,7 +24,9 @@ jobs:
       postgres:
         image: postgres:17.4-alpine
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -51,4 +53,4 @@ jobs:
         run: make migrate-up
         working-directory: ./database-migrations
         env:
-            DATABASE_DSN: "postgres://user:password@postgres:5432/test_db?sslmode=disable"
+            DATABASE_DSN: "postgres://test_user:test_password@postgres:5432/test_db?sslmode=disable"
