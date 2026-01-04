@@ -41,7 +41,7 @@ jobs:
         env:
           MIGRATE_VERSION: v4.19.1
         run: |
-          apk add --no-cache make
+          apk add --no-cache make curl
           curl -L https://github.com/golang-migrate/migrate/releases/download/${{ env.MIGRATE_VERSION }}/migrate.linux-amd64.tar.gz -o migrate.linux-amd64.tar.gz && \
             tar -xvzf migrate.linux-amd64.tar.gz && \
             mv migrate /usr/local/bin/migrate && \
