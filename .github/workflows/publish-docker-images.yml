@@ -45,6 +45,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+    
+      - name: Debug Directory Listing
+        run: |
+          echo "Current working directory: $(pwd)"
+          echo "---"
+          echo "Listing contents of the repository root:"
+          ls -laR
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
