@@ -39,3 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: apk add --no-cache make
+    
+      - name: Test migrations
+        run: make migrate-up
+        working-directory: ./database-migrations
+        env:
+            DATABASE_DSN: "postgres://user:password@postgres:5432/test_db?sslmode=disable"
