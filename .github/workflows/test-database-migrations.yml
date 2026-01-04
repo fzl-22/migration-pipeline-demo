@@ -3,19 +3,19 @@ name: Test Database Migrations
 on:
   pull_request:
     types:
-      - "opened"
-      - "reopened"
-      - "synchronize"
+      - opened
+      - reopened
+      - synchronize
     branches:
-      - "master"
-      - "staging"
-      - "development"
+      - master
+      - staging
+      - development
   # for debugging purpose
   workflow_dispatch:
 
 jobs:
   test-migrate:
-    name: Run DB Migrations
+    name: Test DB Migrations
     runs-on: ubuntu-latest
 
     container: golang:1.25.3-alpine
