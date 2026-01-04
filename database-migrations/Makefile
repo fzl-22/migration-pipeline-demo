@@ -11,7 +11,6 @@ migrate-up:
 		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose up; \
 	fi
 
-
 migrate-down:
 	@if [ -n "$(STEPS)" ]; then \
 		echo "Rolling back migration by $(STEPS) steps..."; \
