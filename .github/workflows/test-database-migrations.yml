@@ -53,4 +53,8 @@ jobs:
         run: make migrate-up
         working-directory: ./database-migrations
         env:
-            DATABASE_DSN: "postgres://test_user:test_password@postgres:5432/test_db?sslmode=disable"
+            DB_DEMO_MASTER_USER: test_user
+            DB_DEMO_Master_PASSWORD: test_password
+            DB_DEMO_MASTER_HOST: postgres
+            DB_DEMO_MASTER_NAME: test_db
+            DB_DEMO_MASTER_SSLMODE: disable
