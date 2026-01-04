@@ -11,7 +11,7 @@ on:
 
 jobs:
   find-images:
-    name: Find Docker IMages
+    name: Find Docker Images
     runs-on: ubuntu-latest
     outputs:
       IMAGES: ${{ steps.list-images.outputs.IMAGE_LIST }}
