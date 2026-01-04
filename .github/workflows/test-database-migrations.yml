@@ -18,7 +18,7 @@ jobs:
     name: Test DB Migrations
     runs-on: ubuntu-latest
 
-    container: golang:1.25.3-alpine
+    container: amfaisal/golang-migrate:latest
 
     services:
       postgres:
@@ -39,17 +39,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        env:
-          MIGRATE_VERSION: v4.19.1
-          MIGRATE_OS: linux
-          MIGRATE_ARCH: amd64
-        run: |
-          apk add --no-cache make curl
-          curl -L https://github.com/golang-migrate/migrate/releases/download/${{ env.MIGRATE_VERSION }}/migrate.${{ env.MIGRATE_OS }}-${{ env.MIGRATE_ARCH }}.tar.gz -o migrate.linux-amd64.tar.gz && \
-            tar -xvzf migrate.linux-amd64.tar.gz && \
-            mv migrate /usr/local/bin/migrate && \
-            rm migrate.linux-amd64.tar.gz
+      # - name: Install dependencies
+      #   env:
+      #     MIGRATE_VERSION: v4.19.1
+      #     MIGRATE_OS: linux
+      #     MIGRATE_ARCH: amd64
+      #   run: |
+      #     apk add --no-cache make curl
+      #     curl -L https://github.com/golang-migrate/migrate/releases/download/${{ env.MIGRATE_VERSION }}/migrate.${{ env.MIGRATE_OS }}-${{ env.MIGRATE_ARCH }}.tar.gz -o migrate.linux-amd64.tar.gz && \
+      #       tar -xvzf migrate.linux-amd64.tar.gz && \
+      #       mv migrate /usr/local/bin/migrate && \
+      #       rm migrate.linux-amd64.tar.gz
 
       - name: Test migrations
         working-directory: ./database-migrations
