@@ -10,6 +10,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  find-images:
+    name: Find Docker IMages
+    runs-on: ubuntu-latest
+    outputs:
+      IMAGES: ${{ steps.list-images.outputs.IMAGE_LIST }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
+      - name: Generate list of image directories
+        id: list-images
+        run: |
+          IMAGE_LIST=$(ls -d docker-images/* | xargs -n 1 basename | jq -R . | jq -s -c .)
+          echo "Discovered images: ${IMAGE_LIST}"
+          echo "IMAGE_LIST=${IMAGE_LIST}" >> $GITHUB_OUTPUT
+
   publish-images:
     name: Publish Docker Images
     runs-on: ubuntu-latest
