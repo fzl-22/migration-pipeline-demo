@@ -15,7 +15,7 @@ on:
 
 jobs:
   test-migrate:
-    name: Run DB Migrations
+    name: Test DB Migrations
     runs-on: ubuntu-latest
 
     container: golang:1.25.3-alpine
