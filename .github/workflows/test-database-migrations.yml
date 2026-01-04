@@ -50,7 +50,9 @@ jobs:
             rm migrate.linux-amd64.tar.gz
     
       - name: Test migrations
-        run: make migrate-up
+        run: |
+          make migrate-up
+          make migrate-down ALL=true
         working-directory: ./database-migrations
         env:
             DB_DEMO_MASTER_USER: test_user

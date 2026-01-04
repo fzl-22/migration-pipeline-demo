@@ -12,11 +12,15 @@ else
 endif
 
 migrate-down:
-ifndef STEPS
-	$(error SAFETY CHECK FAILED: You must specify STEPS for down migrations.)
-else
-	@echo "Rolling back migration by $(STEPS) steps..."
-	migrate -path $(MIGRATION_DIR) -database "$(DATABASE_DSN)" -verbose down $(STEPS)
-endif
+	@if [ -n "$(STEPS)" ]; then \
+		echo "Rolling back migration by $(STEPS) steps..."; \
+		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose down $(STEPS); \
+	elif [ "$(ALL)" == "true" ]; then \
+		echo "Rolling back ALL migrations..."; \
+		migrate -path $(MIGRATION_DIR) -database $(DATABASE_DSN) -verbose down; \
+	else \
+		echo "SAFETY CHECK FAILED: You must specify STEPS (e.g., STEPS=1) or ALL=true for down migrations." >&2; \
+		exit 1; \
+	fi
 
 .PHONY: migrate-up migrate-down
