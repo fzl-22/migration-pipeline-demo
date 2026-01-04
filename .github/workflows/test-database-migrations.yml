@@ -12,11 +12,6 @@ on:
       - development
   # for debugging purpose
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - staging
-      - development
 
 jobs:
   test-migrate:
