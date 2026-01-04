@@ -42,21 +42,23 @@ jobs:
       - name: Install dependencies
         env:
           MIGRATE_VERSION: v4.19.1
+          MIGRATE_OS: linux
+          MIGRATE_ARCH: amd64
         run: |
           apk add --no-cache make curl
-          curl -L https://github.com/golang-migrate/migrate/releases/download/${{ env.MIGRATE_VERSION }}/migrate.linux-amd64.tar.gz -o migrate.linux-amd64.tar.gz && \
+          curl -L https://github.com/golang-migrate/migrate/releases/download/${{ env.MIGRATE_VERSION }}/migrate.${{ env.MIGRATE_OS }}-${{ env.MIGRATE_ARCH }}.tar.gz -o migrate.linux-amd64.tar.gz && \
             tar -xvzf migrate.linux-amd64.tar.gz && \
             mv migrate /usr/local/bin/migrate && \
             rm migrate.linux-amd64.tar.gz
-    
+
       - name: Test migrations
         run: |
           make migrate-up
           make migrate-down ALL=true
         working-directory: ./database-migrations
         env:
-            DB_DEMO_MASTER_USER: test_user
-            DB_DEMO_MASTER_PASSWORD: test_password
-            DB_DEMO_MASTER_HOST: postgres
-            DB_DEMO_MASTER_NAME: test_db
-            DB_DEMO_MASTER_SSLMODE: disable
+          DB_DEMO_MASTER_USER: test_user
+          DB_DEMO_MASTER_PASSWORD: test_password
+          DB_DEMO_MASTER_HOST: postgres
+          DB_DEMO_MASTER_NAME: test_db
+          DB_DEMO_MASTER_SSLMODE: disable
