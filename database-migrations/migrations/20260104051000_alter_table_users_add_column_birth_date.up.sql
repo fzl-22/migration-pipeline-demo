@@ -1,2 +1,2 @@
 -- deliberate error
-ALTER TABLE users ADDD COLUMN IF NOT EXISTS birth_date DATE;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS birth_date DATE;
