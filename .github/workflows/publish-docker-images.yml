@@ -18,11 +18,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
     
       - name: Generate list of image directories
         id: list-images
         run: |
-          IMAGE_LIST=$(ls -d docker-images/* | xargs -n 1 basename | jq -R . | jq -s -c .)
+          if [ ${{ github.event_name }} == "workfllow_dispatch" ]; then
+            echo "Workflow was manually dispatched, running for all images..."
+            IMAGE_LIST=$(ls -d docker-images/* | xargs -n 1 basename | jq -R . | jq -s -c .)
+          else
+            echo "Finding changed images between ${{ github.event.before }} and ${{ github.sha }}"
+            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+            echo "Changed files:"
+            echo "${CHANGED_FILES}"
+            IMAGE_LIST=$(echo "${CHANGED_FILES}" | sed -n 's;^docker-images/\([^/]*\)/.*$;\1;p' | sort -u | jq -R . | jq -s -c .)
+          fi
           echo "Discovered images: ${IMAGE_LIST}"
           echo "IMAGE_LIST=${IMAGE_LIST}" >> $GITHUB_OUTPUT
 
