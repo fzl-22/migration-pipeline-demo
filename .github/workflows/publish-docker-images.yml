@@ -41,6 +41,7 @@ jobs:
     name: Publish ${{ matrix.image }} Docker Images
     runs-on: ubuntu-latest
     needs: find-images
+    if: needs.find-images.outputs.IMAGES != '[]'
     strategy:
       matrix:
         image: ${{ fromJson(needs.find-images.outputs.IMAGES) }}
