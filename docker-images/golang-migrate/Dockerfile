@@ -1,3 +1,4 @@
+# builder stage
 FROM golang:1.25.3-alpine AS builder
 
 ARG MIGRATE_VERSION=v4.19.1
@@ -7,6 +8,7 @@ ARG MIGRATE_ARCH=amd64
 RUN apk add --no-cache curl && \
     curl -L "https://github.com/golang-migrate/migrate/releases/download/${MIGRATE_VERSION}/migrate.${MIGRATE_OS}-${MIGRATE_ARCH}.tar.gz" | tar -xvz
 
+# final stage
 FROM golang:1.25.3-alpine
 
 ARG MIGRATE_OS=linux
